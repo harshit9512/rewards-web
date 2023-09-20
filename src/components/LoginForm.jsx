@@ -1,27 +1,33 @@
 import React, { Component } from "react";
 import { routerServices } from "../services/RouterServices";
-
+import userServices from "../services/UserServices";
 class LoginForm extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            userName:'',
+            userId:'',
             password:''
         }
-        this.userNameHandler = this.userNameHandler.bind(this); // Binding event handler to the constructor 
+        this.userIdHandler = this.userIdHandler.bind(this); // Binding event handler to the constructor 
         this.passwordHandler = this.passwordHandler.bind(this);
         this.loginHandler = this.loginHandler.bind(this);
     }
-    userNameHandler = (event) => {
-        this.setState({ userName: event.target.value });
+    userIdHandler = (event) => {
+        this.setState({ userId: event.target.value });
     }
     passwordHandler = (event) => {
         this.setState({password: event.target.value})
     }
-    loginHandler(){
+    loginHandler = (e) => {
         //Login Validations
-        this.props.navigate("/dashboard");
+        e.preventDefault();
+        userServices.getUserById(this.state.userId).then((res) => {
+            console.log(res.data.password);
+            if (this.state.password === res.data.password) {
+                this.props.navigate("/dashboard")
+            }
+        });
     }
 
     render() {
@@ -32,10 +38,10 @@ class LoginForm extends Component {
             <p>
                 <input
                 type="text"
-                id="username"
-                name="username"
-                placeholder="Username"
-                onChange={this.userNameHandler}
+                id="userId"
+                name="userId"
+                placeholder="userId"
+                onChange={this.userIdHandler}
                 required
                 ></input>
             </p>
@@ -51,7 +57,7 @@ class LoginForm extends Component {
             </p>
             <p>
                 <button className="btn btn-success" onClick={this.loginHandler}>
-                Save
+                    Login
                 </button>
             </p>
             </form>

@@ -10,6 +10,7 @@ export default class App extends Component {
       <div>
         <Router>
           <Routes>
+            {/* <Route exact path="/" element={<LoginForm/>}></Route> */}
             <Route exact path="/" element={<LoginForm/>}></Route>
             <Route exact path="/login" element={<LoginForm/>}></Route>
             <Route exact path="/dashboard" element={<Dashboard/>}></Route>
